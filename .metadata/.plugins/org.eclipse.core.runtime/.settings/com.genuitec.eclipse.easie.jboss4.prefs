@@ -1,0 +1,4 @@
+#Sun Aug 24 11:32:46 CST 2014
+eclipse.preferences.version=1
+JBOSS_HOME=G\:\\Java\\Jboss\\jboss-4.2.3.GA
+SERVER_STARTUP_ARG=-c default

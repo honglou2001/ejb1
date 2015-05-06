@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;Hello.java&apos; to &apos;ejbclient1/src/com.example.cli1&apos;&#x0D;&#x0A;- Original project: &apos;ejbpro1&apos;&#x0D;&#x0A;- Destination element: &apos;ejbclient1/src/com.example.cli1&apos;&#x0D;&#x0A;- Original element: &apos;com.example.ejb.Hello.java&apos;" description="Copy compilation unit" destination="=ejbclient1/src&lt;com.example.cli1" element1="/src&lt;com.example.ejb{Hello.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1408874289244" units="1" version="1.0"/>
+</session>
