@@ -1,0 +1,13 @@
+package com.example.ejb;
+
+
+
+public class UserServiceImpl  {
+
+
+	public String AddUser() {
+			
+	  
+	}
+	
+}

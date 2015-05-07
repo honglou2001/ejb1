@@ -1,0 +1,10 @@
+package com.example.ejb;
+
+
+
+@Local
+public interface UserServiceL {
+	
+	public String AddUser();
+	
+}

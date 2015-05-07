@@ -1,0 +1,14 @@
+package com.example.ejb;
+
+
+
+public class UserServiceImpl implements UserService {
+
+	@Override 
+	public String AddUser() {
+			
+	  
+		return "OK";
+	}
+	
+}

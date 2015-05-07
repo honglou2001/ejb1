@@ -1,0 +1,35 @@
+package com.example.ejb;
+
+
+
+public class UserServiceImpl  {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	//UserDaoIml daoUser = new UserDaoIml();
+	private User user;
+	
+	@Override
+	public String AddUser() {
+
+	  if(user.getId() == null || user.getId().length() <= 0){		
+		  userDao.Add(user);
+		  this.message ="新增成功";
+
+	  }else
+	  {
+		  userDao.Update(user);
+		  this.message ="修改成功";
+	  }
+	  
+	  dataMap = new HashMap<String, Object>();
+	  dataMap.put("user", user);
+	  dataMap.put("success", true);
+	  dataMap.put("message", this.message);
+	  
+	  return SUCCESS;
+	}
+	
+}

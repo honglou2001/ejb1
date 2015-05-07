@@ -1,0 +1,41 @@
+package com.example.ejb;
+
+
+import javax.ejb.Remote;  
+import javax.ejb.Stateless;  
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
+
+
+@Stateless(mappedName="UserService")
+@Remote
+public class UserServiceImpl implements UserService {
+
+	@PersistenceContext(unitName = "ejbpro1")
+	private EntityManagerFactory entityManagerFactory;
+
+    //private EntityManager manager;
+
+	
+	@Override 
+	public String AddUser() {
+			
+		User user = new User();
+		user.setAdress("address");
+		user.setDescription("setDescription");
+		user.setEmail("setEmail");
+		user.setId("1c2efc0d-276d-4468-8b43-c0b58b396fe5");
+		user.setMobile("mobile");
+		user.setName("setName");
+		user.setPwd("setPwd");
+		
+		EntityManager manager = entityManagerFactory.createEntityManager();
+		//if (manager!=null){
+			manager.persist(user);
+		//}
+		
+		return "OK";
+	}
+	
+}

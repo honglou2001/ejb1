@@ -1,0 +1,39 @@
+package com.example.ejb;
+
+
+import javax.ejb.Local;
+import javax.ejb.Remote;  
+import javax.ejb.Stateless;  
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import com.example.ejb.UserServiceBean;
+
+
+@Stateless(mappedName="Hello")
+@Remote
+public class HelloBean implements Hello {
+
+	@Override
+	public String hello(String name) throws NamingException {
+		// TODO Auto-generated method stub
+		//UserServiceBean  user = new UserServiceBean();
+		 String addstring = "OK";
+		try {
+		  InitialContext ctx = new InitialContext();
+				  
+		  UserService service = (UserService)ctx.lookup("UserServiceBean/local");
+		  
+		  
+		  addstring =service.AddUser();
+		  } catch (NamingException ne) {
+
+			   ne.printStackTrace();
+			  }
+		//String addstring = "user.AddUser()1";
+		
+		return name+"，你好，现在时间是"+ new java.util.Date()+addstring;
+	}
+
+}

@@ -1,0 +1,8 @@
+package com.example.ejb;
+
+public interface UserService {
+	
+
+	public String AddUser();
+	
+}

@@ -1,0 +1,32 @@
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import com.example.ejb.User;
+import com.example.ejb.UserServiceR;
+
+
+public class UserServiceBeanL public class UserServiceBean implements UserServiceR {
+
+	@PersistenceContext(unitName = "ejbpro1")	
+    private EntityManager manager;
+
+	
+	@Override 
+	public String AddUser() {
+			
+		User user = new User();
+		user.setAdress("address");
+		user.setDescription("setDescription");
+		user.setEmail("setEmail");
+		user.setId("1c2efc0d-276d-4468-8b43-c0b58b396fe5");
+		user.setMobile("mobile");
+		user.setName("setName");
+		user.setPwd("setPwd");		
+
+		manager.persist(user);
+		
+		
+		return "OK";
+	}
+	
+}

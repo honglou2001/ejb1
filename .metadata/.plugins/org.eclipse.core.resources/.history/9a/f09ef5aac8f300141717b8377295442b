@@ -1,0 +1,26 @@
+package com.example.ejb;
+
+
+import javax.ejb.Remote;  
+import javax.ejb.Stateless;  
+
+
+@Stateless(mappedName="UserService")
+@Remote
+public class UserServiceImpl implements UserService {
+
+	@Override 
+	public String AddUser() {
+			
+		User user = new User();
+		user.setAdress("address");
+		user.setDescription("setDescription");
+		user.setEmail("setEmail");
+		user.setId("setId");
+		user.setMobile("mobile");
+		user.setName("setName");
+		user.setMobile("mobile");
+		return "OK";
+	}
+	
+}

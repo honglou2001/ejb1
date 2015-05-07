@@ -1,0 +1,27 @@
+package com.example.cli1;
+
+import javax.naming.NamingException;
+
+//import com.example.cli1.cliclass;
+
+public class climain {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub		
+		System.out.println("≤‚ ‘ejbµ˜”√");
+		System.out.println("--------------------");
+		
+//		try{
+//			String str = new cliclass().testEJB();
+//			System.out.println(str);
+//		
+//		}
+//		catch(NamingException ex)
+//		{
+//			ex.printStackTrace();
+//		}		
+	}
+}

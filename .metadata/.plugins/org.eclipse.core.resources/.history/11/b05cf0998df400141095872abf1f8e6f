@@ -1,0 +1,52 @@
+package com.example.cli1;
+
+import java.util.Properties;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import com.example.ejb.Hello;
+import com.example.ejb.UserServiceL;
+
+import com.example.ejb.UserServiceR;
+
+
+public class cliclass {
+	
+	public String testEJB() throws NamingException{
+		
+		  Context weblogicContext = getInitialConnection();
+		  Hello h1 = (Hello)weblogicContext.lookup("HelloBean/remote");
+		  
+//		  UserServiceR service = (UserServiceR)weblogicContext.lookup("UserServiceBeanR/remote");
+//		  service.AddUser();
+		  
+		  //InitialContext ctx = new InitialContext();	
+		  UserServiceL service1 = (UserServiceL)weblogicContext.lookup("UserServiceBeanL/local");
+		  service1.AddUser();
+		  //return "1";
+		  
+		  return h1.hello("EJB");
+				  
+		 }
+	
+	private Context getInitialConnection() {
+		  final String INIT_FACTORY = "org.jnp.interfaces.NamingContextFactory";
+		  final String SERVER_URL = "jnp://localhost:1099";
+		  Context ctx = null;
+		  try {
+		   Properties props = new Properties();
+		   
+		   props.put(Context.INITIAL_CONTEXT_FACTORY, INIT_FACTORY);
+		   props.put(Context.PROVIDER_URL, SERVER_URL);
+		   ctx = new InitialContext(props);
+		  } catch (NamingException ne) {
+		   // TODO: handle exception
+		   System.err.println("不能连接WebLogic Server在：" + SERVER_URL);
+		   ne.printStackTrace();
+		  }
+		  return ctx;
+		 }
+
+
+}

@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="G:/Java/Jboss/jboss-4.2.3.GA/server/default/deploy/ejbpro1dep.jar"/>
 	<classpathentry kind="lib" path="G:/Java/Jboss/jboss-4.2.3.GA/client/activation.jar"/>
 	<classpathentry kind="lib" path="G:/Java/Jboss/jboss-4.2.3.GA/client/antlr.jar"/>
 	<classpathentry kind="lib" path="G:/Java/Jboss/jboss-4.2.3.GA/client/avalon-framework.jar"/>

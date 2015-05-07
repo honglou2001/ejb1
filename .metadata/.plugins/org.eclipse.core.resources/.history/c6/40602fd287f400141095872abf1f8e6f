@@ -1,0 +1,18 @@
+package com.example.ejb;
+
+import javax.ejb.Local;
+import javax.ejb.Remote;
+
+@Remote
+public interface UserServiceR {
+	
+	public String AddUser();
+	
+}
+
+@Remote
+public interface UserServiceL {
+	
+	public String AddUser();
+	
+}

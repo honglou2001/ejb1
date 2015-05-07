@@ -1,0 +1,32 @@
+package com.example.ejb;
+
+
+import javax.ejb.Local;
+import javax.ejb.Remote;  
+import javax.ejb.Stateless;  
+import javax.naming.Context;
+import javax.naming.InitialContext;
+
+import com.example.ejb.UserServiceBean;
+
+
+@Stateless(mappedName="Hello")
+@Remote
+public class HelloBean implements Hello {
+
+	@Override
+	public String hello(String name) {
+		// TODO Auto-generated method stub
+		//UserServiceBean  user = new UserServiceBean();
+//		  InitialContext ctx = new InitialContext();
+//				  
+//		  UserService service = (UserService)ctx.lookup("UserServiceBean/local");
+//		  service.AddUser();
+		  
+		String addstring = user.AddUser();
+		//String addstring = "user.AddUser()1";
+		
+		return name+"，你好，现在时间是"+ new java.util.Date()+addstring;
+	}
+
+}
