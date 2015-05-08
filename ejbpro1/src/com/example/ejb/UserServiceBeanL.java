@@ -4,7 +4,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import com.example.ejb.User;
+import com.example.ejb.ExamUser;
 
 @Stateless(mappedName="UserServiceL")
 public class UserServiceBeanL implements UserServiceL {
@@ -16,7 +16,7 @@ public class UserServiceBeanL implements UserServiceL {
 	@Override 
 	public String AddUser() {
 			
-		User user = new User();
+		ExamUser user = new ExamUser();
 		user.setAdress("address");
 		user.setDescription("setDescription");
 		user.setEmail("setEmail");

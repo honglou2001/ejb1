@@ -1,0 +1,10 @@
+package com.users.ejb;
+
+import javax.ejb.Remote;
+
+@Remote
+public interface UserService {
+	
+	public String AddUser();
+	
+}

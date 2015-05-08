@@ -16,7 +16,7 @@ public class UserServiceBeanR implements UserServiceR {
 	@Override 
 	public String AddUser() {
 			
-		User user = new User();
+		ExamUser user = new ExamUser();
 		user.setAdress("address");
 		user.setDescription("setDescription");
 		user.setEmail("setEmail");

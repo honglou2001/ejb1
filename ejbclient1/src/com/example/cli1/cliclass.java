@@ -1,14 +1,16 @@
 package com.example.cli1;
 
+import java.util.List;
 import java.util.Properties;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import com.example.ejb.Hello;
-import com.example.ejb.UserServiceL;
 
 import com.example.ejb.UserServiceR;
+import com.users.ejb.User;
+import com.users.ejb.UserService;
 
 
 public class cliclass {
@@ -20,6 +22,11 @@ public class cliclass {
 		  
 		  UserServiceR service = (UserServiceR)weblogicContext.lookup("UserServiceBeanR/remote");
 		  service.AddUser();		
+		  
+		  UserService serviceList = (UserService)weblogicContext.lookup("UserServiceBean/remote");
+		  List<User> users = serviceList.ListUser();	
+		 		  
+		  System.err.println("users size()£º" + users.size());
 		  
 		  return h1.hello("EJB");
 				  
