@@ -17,8 +17,7 @@ public class UserServiceBean implements UserService {
 
 	@Override
 	public void Add(User user) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 		user.setId(UUID.randomUUID().toString());
 		
 		manager.persist(user);
