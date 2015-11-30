@@ -1,0 +1,412 @@
+package com.watch.ejb;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import com.common.ejb.EJBTime;
+import com.users.ejb.ScmDistributors;
+/**
+ * <p>Title: ejb title </p>
+ * <p>Description: serialnumber EJB Interface Bean 处理类</p>
+ * @author yangqinxu 电话：137****5317
+ * @version 1.0 时间  2015-7-10 22:19:02
+ */
+@Stateless(mappedName="SerialnumberService")
+public class SerialnumberBean  implements SerialnumberService {
+    
+    @PersistenceContext(unitName = "ejbpro1")	
+    private EntityManager manager;
+
+	@Override
+	public void Add(Serialnumber serialnumberInfo) {    
+		
+		List<Serialnumber> lists = findBySNNumber(serialnumberInfo.getSerialnumber());
+
+		if (lists.size() > 0) {
+
+			throw new RuntimeException("新增出错，序列号已经存在。");
+		}
+		
+     	Timestamp datetime = EJBTime.getTimeStamp();
+    	serialnumberInfo.setFupdatetime(datetime);
+    	
+		manager.persist(serialnumberInfo);		
+		
+		String sql="insert into locationinfo (serialnumber) values(:serialnumber);";
+		Query query = manager.createNativeQuery(sql);
+		query.setParameter("serialnumber",serialnumberInfo.getSerialnumber());
+		
+		query.executeUpdate();
+		
+	}
+	
+	@Override
+	public void Update(Serialnumber serialnumberInfo,
+			HashMap<String, String> map) {
+
+		if(map!=null && map.size()>0)
+		{
+			if(map.containsKey("actionType")){
+				String actionType = map.get("actionType");
+				
+				//更新电话号码及设置全局拨号模式
+				if(actionType.equals("1"))
+				{
+					Serialnumber snfind = this.find(serialnumberInfo.getFuniqueid());
+									
+					if (snfind ==null) {
+
+						throw new RuntimeException("更新出错，无此序列号信息");
+					}
+					int datastatus = snfind.getFdatastatus();
+					datastatus = ~4 & datastatus;  // 默认模式
+					datastatus = ~2 & datastatus;  // 全局直拨
+					
+					datastatus = datastatus | serialnumberInfo.getFdatastatus();
+										
+					
+					Query q = manager.createNativeQuery("UPDATE serialnumber SET fphonenum = ?, fphonetime = ?,fdatastatus=?  WHERE funiqueid = ?");
+					q.setParameter(1, serialnumberInfo.getFphonenum());					
+			     	Timestamp datetime = EJBTime.getTimeStamp();			    	
+					q.setParameter(2, datetime);	
+					q.setParameter(3, datastatus);	
+					q.setParameter(4, serialnumberInfo.getFuniqueid());					
+					q.executeUpdate();
+				}			
+			}
+		}		
+	}
+	
+	@Override
+	public void Update(Serialnumber serialnumberInfo) 
+	{
+     	Timestamp datetime = EJBTime.getTimeStamp();
+    	serialnumberInfo.setFupdatetime(datetime);
+    	
+		manager.merge(serialnumberInfo);		
+	}
+	
+	@Override
+	public void Delete(String id) 
+	{
+		Serialnumber serialnumberInfo = manager.find(Serialnumber.class, id);
+		
+		manager.remove(serialnumberInfo);
+	}
+	
+	@Override
+	public Serialnumber find(String id) 
+	{
+		Serialnumber serialnumberInfo = manager.find(Serialnumber.class, id);
+		return serialnumberInfo;
+	}
+    
+	@Override
+	public List<Serialnumber> findBySNNumber(String serialnum) 
+	{		
+		String hql = "  from Serialnumber where serialnumber = :serialnum ";
+		Query query = manager.createQuery(hql);
+		query.setParameter("serialnum", serialnum);
+		@SuppressWarnings("unchecked")
+		List<Serialnumber> Serialnumbers = query.getResultList();
+		return Serialnumbers;
+	}
+	
+//	private String GetWhere(HashMap<String, String> map) {
+//		String where = "";
+//		
+//		if(map!=null && map.size()>0)
+//		{
+//			
+//		}
+//		return where;
+//	}    
+	
+	@Override
+	public int GetCount(HashMap<String, String> map){
+		
+//        String where = GetWhere(map);
+//        
+//		String hql = "select count(*) from Serialnumber";	    
+//		Query query =manager.createQuery(hql);   
+//		int total = (new Integer(query.getSingleResult().toString()));	    
+//		return total;
+		
+		String where = " ";
+		
+		if(map!=null && map.size() > 0)
+		{			
+			if(map.containsKey("user.funiqueid") && map.get("user.funiqueid")!=null && !map.get("user.funiqueid").toString().equals(""))
+			{
+				where += " and c.funiqueid = '"+map.get("user.funiqueid")+"' ";
+			}
+			if(map.containsKey("sn.fphonenum") && map.get("sn.fphonenum")!=null && !map.get("sn.fphonenum").toString().equals(""))
+			{
+				where += " and a.fphonenum = '"+map.get("sn.fphonenum")+"' ";
+			}	
+			if(map.containsKey("serialnumber") && map.get("serialnumber")!=null && !map.get("serialnumber").toString().equals(""))
+			{
+				where += " and a.serialnumber = '"+map.get("serialnumber")+"' ";
+			}			
+		}
+
+		StringBuffer sql = new StringBuffer();
+		sql.append(" SELECT count(*) ");
+		sql.append(" FROM USER c inner join t_user_snrelate b   ");
+		sql.append(" on c.funiqueid=b.FUserIDStr inner join serialnumber a on a.funiqueid = b.FSNIDStr  ");
+		sql.append(" WHERE b.FDataStatus=1 | b.FDataStatus ");
+		sql.append(where);
+
+		Query query = manager.createNativeQuery(sql.toString());
+		int total = (new Integer(query.getSingleResult().toString()));
+
+		return total;
+	}	
+	
+//	@Override 
+//	public List<Serialnumber> ListSerialnumber(int offset, int length,HashMap<String, String> map) {					
+//		
+//        String where = GetWhere(map);
+//        
+//        String hql = "from Serialnumber";      
+//		Query query =manager.createQuery(hql);   
+//		query.setFirstResult(offset);
+//		query.setMaxResults(length);
+//		@SuppressWarnings("unchecked")
+//		List<Serialnumber> Serialnumbers = query.getResultList();   
+//		return Serialnumbers;		
+//	}
+	
+	private static String CharacterToString(Object charter)
+	{
+		if(charter!=null)
+			 return charter.toString();
+		
+			return null;
+	}
+	@Override
+	public List<Serialnumber> ListSerialnumber(int offset, int length,HashMap<String, String> map) {
+
+		String where = " ";
+		
+		if(map!=null && map.size() > 0)
+		{			
+			if(map.containsKey("user.funiqueid") && map.get("user.funiqueid")!=null && !map.get("user.funiqueid").toString().equals(""))
+			{
+				where += " and c.funiqueid = '"+map.get("user.funiqueid")+"' ";
+			}
+			if(map.containsKey("sn.fphonenum") && map.get("sn.fphonenum")!=null && !map.get("sn.fphonenum").toString().equals(""))
+			{
+				where += " and a.fphonenum = '"+map.get("sn.fphonenum")+"' ";
+			}	
+			
+			if(map.containsKey("serialnumber") && map.get("serialnumber")!=null && !map.get("serialnumber").toString().equals(""))
+			{
+				where += " and a.serialnumber = '"+map.get("serialnumber")+"' ";
+			}
+			
+		}
+		
+	    StringBuffer  sql = new StringBuffer();
+        sql.append(" SELECT a.funiqueid,a.id,a.serialnumber,a.status,a.ef,a.setgps,a.gpsstatus,a.isreg,a.lbs,a.listenstatus,a.online,a.nickname,a.fqrcode,a.birthday,a.fsex,a.fweight,a.feight,a.fgrade,a.fclass,a.fschool,a.fcallname,a.flogcount,a.floglasttime,a.floglastip,a.fdatastatus,a.fremark,a.fpicture,a.fupdatetime,a.fphonenum,c.funiqueid,c.username,c.fmobile ,a.fdevtype");
+        sql.append(" FROM USER c inner join t_user_snrelate b ");        
+        sql.append(" on c.funiqueid=b.FUserIDStr inner join serialnumber a on a.funiqueid = b.FSNIDStr ");       
+		sql.append(" WHERE b.FDataStatus=1 | b.FDataStatus ");
+		sql.append(  where);
+		sql.append(" order by a.id desc ");
+		sql.append(" limit "+offset+","+length+"");
+
+		Query query = manager.createNativeQuery(sql.toString());
+
+		List rows = query.getResultList();
+		List<Serialnumber> Serialnumbers = new ArrayList<Serialnumber>();
+		
+		for (Object row : rows) {
+			Object[] cells = (Object[]) row;
+			
+			Serialnumber item = new Serialnumber();	
+           
+            item.setFuniqueid((String)cells[0]);            
+            item.setId((Integer)cells[1]);            
+            item.setSerialnumber((String)cells[2]);            
+            item.setStatus((CharacterToString(cells[3])));            
+            item.setEf(CharacterToString(cells[4]));            
+            item.setSetgps((String)cells[5]);            
+            item.setGpsstatus((String)cells[6]);            
+            item.setIsreg(CharacterToString(cells[7]));            
+            item.setLbs(CharacterToString(cells[8]));            
+            item.setListenstatus(CharacterToString(cells[9]));            
+            item.setOnline(CharacterToString(cells[10]));            
+            item.setNickname((String)cells[11]);            
+            item.setFqrcode((String)cells[12]);            
+            item.setBirthday((String)cells[13]);            
+            item.setFsex((Integer)cells[14]);            
+            item.setFweight((String)cells[15]);            
+            item.setFeight((String)cells[16]);            
+            item.setFgrade((String)cells[17]);            
+            item.setFclass((String)cells[18]);            
+            item.setFschool((String)cells[19]);            
+            item.setFcallname((String)cells[20]);            
+            item.setFlogcount((Integer)cells[21]);            
+            item.setFloglasttime((java.sql.Timestamp)cells[22]);            
+            item.setFloglastip((String)cells[23]);            
+            item.setFdatastatus((Integer)cells[24]);            
+            item.setFremark((String)cells[25]);            
+            item.setFpicture((String)cells[26]);            
+            item.setFupdatetime((java.sql.Timestamp)cells[27]);              
+            item.setFphonenum((String)cells[28]);
+            
+            item.setFusrid((String)cells[29]);
+            item.setFusrname((String)cells[30]);
+            item.setFusrphone((String)cells[31]);
+            item.setFdevtype((Integer)cells[32]); 
+          			
+			Serialnumbers.add(item);			
+		}
+		return Serialnumbers;
+	}
+	
+	private String getWhere(HashMap<String, String> map)
+	{
+		String where = " ";
+		
+		if(map!=null && map.size() > 0)
+		{			
+			if(map.containsKey("user.funiqueid") && map.get("user.funiqueid")!=null && !map.get("user.funiqueid").toString().equals(""))
+			{
+				where += "  and b.FRelateID is not null and c.funiqueid  is not null and c.funiqueid = '"+map.get("user.funiqueid")+"' ";
+			}
+			if(map.containsKey("sn.fphonenum") && map.get("sn.fphonenum")!=null && !map.get("sn.fphonenum").toString().equals(""))
+			{
+				where += " and a.fphonenum = '"+map.get("sn.fphonenum")+"' ";
+			}	
+			if(map.containsKey("a.funiqueid") && map.get("a.funiqueid")!=null && !map.get("a.funiqueid").toString().equals(""))
+			{
+				where += " and a.funiqueid = '"+map.get("a.funiqueid")+"' ";
+			}											
+			if(map.containsKey("sn.serialnumber") && map.get("sn.serialnumber")!=null && !map.get("sn.serialnumber").toString().equals(""))
+			{
+				where += " and a.serialnumber = '"+map.get("sn.serialnumber")+"' ";
+			}
+			//获取只注册过的
+			if(map.containsKey("getIsReg") && map.get("getIsReg")!=null && !map.get("getIsReg").toString().equals(""))
+			{
+				String getIsReg = map.get("getIsReg");
+				
+				if(getIsReg.equals("1")){				
+					where += " and b.FRelateID is not null and c.funiqueid  is not null ";
+				}
+				else if(getIsReg.equals("2")){				
+					where += " and b.FRelateID is null and c.funiqueid  is null ";
+				}
+			}
+			if(map.containsKey("getIsOnline") && map.get("getIsOnline")!=null && !map.get("getIsOnline").toString().equals(""))
+			{
+				String getIsOnline = map.get("getIsOnline");
+				
+				if(getIsOnline.equals("1")){				
+					where += "  and online='1' ";
+				}
+				else if(getIsOnline.equals("2")){				
+					where += "  and online='0' ";
+				}
+			}						
+		}
+		
+		return where;
+	}
+
+	@Override
+	public int GetCountAll(HashMap<String, String> map) {
+		
+		String where = this.getWhere(map);
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append(" SELECT count(*) ");
+		sql.append(" FROM serialnumber a left join t_user_snrelate b  on a.funiqueid = b.FSNIDStr  ");
+		sql.append(" left join USER c on c.funiqueid=b.FUserIDStr   ");		
+		sql.append(" WHERE 1=1 ");
+		sql.append(where);
+
+		Query query = manager.createNativeQuery(sql.toString());
+		int total = (new Integer(query.getSingleResult().toString()));
+
+		return total;
+	}
+
+	@Override
+	public List<Serialnumber> ListSerialnumberAll(int offset, int length,
+			HashMap<String, String> map) {
+		
+		String where = this.getWhere(map);
+		
+	    StringBuffer  sql = new StringBuffer();
+        sql.append(" SELECT a.funiqueid,a.id,a.serialnumber,a.status,a.ef,a.setgps,a.gpsstatus,a.isreg,a.lbs,a.listenstatus,a.online,a.nickname,a.fqrcode,a.birthday,a.fsex,a.fweight,a.feight,a.fgrade,a.fclass,a.fschool,a.fcallname,a.flogcount,a.floglasttime,a.floglastip,a.fdatastatus,a.fremark,a.fpicture,a.fupdatetime,a.fphonenum,c.funiqueid,c.username,c.fmobile,a.fdevtype,ifnull(d.FClientNumber,'') ");
+		sql.append(" FROM serialnumber a left join t_user_snrelate b  on a.funiqueid = b.FSNIDStr  ");
+		sql.append(" left join USER c on c.funiqueid=b.FUserIDStr   ");    
+		
+		sql.append(" left join t_serialnumber_apiphone d on a.fphonenum=d.FMobile and a.fphonenum is not null "); 
+		
+		sql.append(" WHERE 1=1 ");
+		sql.append(  where);
+		sql.append(" order by a.id desc ");
+		sql.append(" limit "+offset+","+length+"");
+
+		Query query = manager.createNativeQuery(sql.toString());
+
+		List rows = query.getResultList();
+		List<Serialnumber> Serialnumbers = new ArrayList<Serialnumber>();
+		
+		for (Object row : rows) {
+			Object[] cells = (Object[]) row;
+			
+			Serialnumber item = new Serialnumber();	
+           
+            item.setFuniqueid((String)cells[0]);            
+            item.setId((Integer)cells[1]);            
+            item.setSerialnumber((String)cells[2]);            
+            item.setStatus((CharacterToString(cells[3])));            
+            item.setEf(CharacterToString(cells[4]));            
+            item.setSetgps((String)cells[5]);            
+            item.setGpsstatus((String)cells[6]);            
+            item.setIsreg(CharacterToString(cells[7]));            
+            item.setLbs(CharacterToString(cells[8]));            
+            item.setListenstatus(CharacterToString(cells[9]));            
+            item.setOnline(CharacterToString(cells[10]));            
+            item.setNickname((String)cells[11]);            
+            item.setFqrcode((String)cells[12]);            
+            item.setBirthday((String)cells[13]);            
+            item.setFsex((Integer)cells[14]);            
+            item.setFweight((String)cells[15]);            
+            item.setFeight((String)cells[16]);            
+            item.setFgrade((String)cells[17]);            
+            item.setFclass((String)cells[18]);            
+            item.setFschool((String)cells[19]);            
+            item.setFcallname((String)cells[20]);            
+            item.setFlogcount((Integer)cells[21]);            
+            item.setFloglasttime((java.sql.Timestamp)cells[22]);            
+            item.setFloglastip((String)cells[23]);            
+            item.setFdatastatus((Integer)cells[24]);            
+            item.setFremark((String)cells[25]);            
+            item.setFpicture((String)cells[26]);            
+            item.setFupdatetime((java.sql.Timestamp)cells[27]);              
+            item.setFphonenum((String)cells[28]);
+            
+            item.setFusrid((String)cells[29]);
+            item.setFusrname((String)cells[30]);
+            item.setFusrphone((String)cells[31]);          			
+            item.setFdevtype((Integer)cells[32]); 
+            item.setFclientnumber((String)cells[33]);
+            
+			Serialnumbers.add(item);			
+		}
+		return Serialnumbers;
+	}	
+}

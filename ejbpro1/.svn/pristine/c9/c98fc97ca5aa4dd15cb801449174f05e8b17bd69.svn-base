@@ -1,0 +1,78 @@
+package com.common.ejb;
+
+public class EjbCmdData {
+
+
+	public static String getCmdNameByCmd(String cmd)
+	{
+		if(cmd.equals("7103"))
+		{
+			return "下发发送通讯录";
+		}
+		else if(cmd.equals("7200"))
+		{
+			return "下发远程关机";
+		}
+		else if(cmd.equals("7106"))
+		{
+			return "下发查找手机";
+		}
+		else if(cmd.equals("2002"))
+		{
+			return "下发设置静默时间";
+		}
+		else if(cmd.equals("7104"))
+		{
+			return "下发全局拨打模式";
+		}
+		else if(cmd.equals("7108"))
+		{
+			return "下发小红花数";
+		}
+		else if(cmd.equals("7109"))
+		{
+			return "下发短信";
+		}
+		else if(cmd.equals("4102"))
+		{
+			return "下发定位模式及频率";
+		}
+		else if(cmd.equals("0001"))
+		{
+			return "下发心跳包";
+		}		
+		else if(cmd.equals("9991"))
+		{
+			return "下发同步时间";
+		}
+		else if(cmd.equals("9982"))
+		{
+			return "上传手动定位";
+		}	
+		else if(cmd.equals("4130"))
+		{
+			return "上传监听";
+		}	
+		else if(cmd.equals("7101"))
+		{
+			return "上传计步器";
+		}	
+		else if(cmd.equals("7200"))
+		{
+			return "上传设备下线";
+		}	
+		else if(cmd.equals("9955"))
+		{
+			return "上传位置信息";
+		}	
+		else if(cmd.equals("7102"))
+		{
+			return "上传脱落";
+		}	
+		else if(cmd.equals("7105"))
+		{
+			return "上传通知服务器回拨";
+		}			
+		return "";
+	}
+}

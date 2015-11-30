@@ -1,0 +1,267 @@
+package com.watch.ejb;
+
+
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+/**
+ * <p>Title: ejb title </p>
+ * <p>Description: t_friend_contact MODEL 处理类</p>
+ * @author yangqinxu 电话：137****5317
+ * @version 1.0 时间  2015-8-19 9:39:16
+ */
+@SuppressWarnings("serial")  
+@Entity
+@Table(name = "t_friend_contact")
+public class FriendContact   implements Serializable {
+	
+	private static final long serialVersionUID = 1L; 
+    @Id
+	@Column(name = "FContactID")
+	private String fcontactid;
+    
+	@Column(name = "FIncreaseID")
+	private Integer fincreaseid;
+    
+	@Column(name = "FAPPUserID")
+	private String fappuserid;
+    
+	@Column(name = "FFromSnID")
+	private String ffromsnid;
+    
+	@Column(name = "FToSnID")
+	private String ftosnid;
+    
+	@Column(name = "FAction")
+	private Integer faction;
+    
+	@Column(name = "FIndex")
+	private Integer findex;
+    
+	@Column(name = "FName")
+	private String fname;
+    
+	@Column(name = "FPhoneNum")
+	private String fphonenum;
+    
+	@Column(name = "FProperties")
+	private Integer fproperties;
+    
+	@Column(name = "FDialType")
+	private Integer fdialtype;
+    
+	@Column(name = "FZone")
+	private String fzone;
+    
+	@Column(name = "FBackup1")
+	private String fbackup1;
+    
+	@Column(name = "FBackup2")
+	private String fbackup2;
+    
+	@Column(name = "FCallBackUrl")
+	private String fcallbackurl;
+    
+	@Column(name = "FDataStatus")
+	private Integer fdatastatus;
+    
+	@Column(name = "FFieldStatus")
+	private Integer ffieldstatus;
+    
+	@Column(name = "FAddTime")
+	private java.sql.Timestamp faddtime;
+    
+	@Column(name = "FUpdateTime")
+	private java.sql.Timestamp fupdatetime;
+    
+	@Column(name = "FRemark")
+	private String fremark;
+	
+	private String fpicture;
+	private String nickname;
+	private String serialnumber;
+    
+
+	public String getFcontactid() {
+		return fcontactid;
+	}
+    
+	public void setFcontactid(String fcontactid) {		     
+         this.fcontactid = fcontactid;
+	}
+	public Integer getFincreaseid() {
+		return fincreaseid;
+	}
+    
+	public void setFincreaseid(Integer fincreaseid) {		     
+         this.fincreaseid = fincreaseid;
+	}
+	public String getFappuserid() {
+		return fappuserid;
+	}
+    
+	public void setFappuserid(String fappuserid) {		     
+         this.fappuserid = fappuserid;
+	}
+	public String getFfromsnid() {
+		return ffromsnid;
+	}
+    
+	public void setFfromsnid(String ffromsnid) {		     
+         this.ffromsnid = ffromsnid;
+	}
+	public String getFtosnid() {
+		return ftosnid;
+	}
+    
+	public void setFtosnid(String ftosnid) {		     
+         this.ftosnid = ftosnid;
+	}
+	public Integer getFaction() {
+		return faction;
+	}
+    
+	public void setFaction(Integer faction) {		     
+         this.faction = faction;
+	}
+	public Integer getFindex() {
+		return findex;
+	}
+    
+	public void setFindex(Integer findex) {		     
+         this.findex = findex;
+	}
+	public String getFname() {
+		return fname;
+	}
+    
+	public void setFname(String fname) {		     
+         this.fname = fname;
+	}
+	public String getFphonenum() {
+		return fphonenum;
+	}
+    
+	public void setFphonenum(String fphonenum) {		     
+         this.fphonenum = fphonenum;
+	}
+	public Integer getFproperties() {
+		return fproperties;
+	}
+    
+	public void setFproperties(Integer fproperties) {		     
+         this.fproperties = fproperties;
+	}
+	public Integer getFdialtype() {
+		return fdialtype;
+	}
+    
+	public void setFdialtype(Integer fdialtype) {		     
+         this.fdialtype = fdialtype;
+	}
+	public String getFzone() {
+		return fzone;
+	}
+    
+	public void setFzone(String fzone) {		     
+         this.fzone = fzone;
+	}
+	public String getFbackup1() {
+		return fbackup1;
+	}
+    
+	public void setFbackup1(String fbackup1) {		     
+         this.fbackup1 = fbackup1;
+	}
+	public String getFbackup2() {
+		return fbackup2;
+	}
+    
+	public void setFbackup2(String fbackup2) {		     
+         this.fbackup2 = fbackup2;
+	}
+	public String getFcallbackurl() {
+		return fcallbackurl;
+	}
+    
+	public void setFcallbackurl(String fcallbackurl) {		     
+         this.fcallbackurl = fcallbackurl;
+	}
+	public Integer getFdatastatus() {
+		return fdatastatus;
+	}
+    
+	public void setFdatastatus(Integer fdatastatus) {		     
+         this.fdatastatus = fdatastatus;
+	}
+	public Integer getFfieldstatus() {
+		return ffieldstatus;
+	}
+    
+	public void setFfieldstatus(Integer ffieldstatus) {		     
+         this.ffieldstatus = ffieldstatus;
+	}
+	public java.sql.Timestamp getFaddtime() {
+		return faddtime;
+	}
+    
+	public void setFaddtime(java.sql.Timestamp faddtime) {		     
+         this.faddtime = faddtime;
+	}
+	public java.sql.Timestamp getFupdatetime() {
+		return fupdatetime;
+	}
+    
+	public void setFupdatetime(java.sql.Timestamp fupdatetime) {		     
+         this.fupdatetime = fupdatetime;
+	}
+	public String getFremark() {
+		return fremark;
+	}
+    
+	public void setFremark(String fremark) {		     
+         this.fremark = fremark;
+	}
+	
+	public String getFpicture() {
+		return fpicture;
+	}
+
+	public void setFpicture(String fpicture) {
+		this.fpicture = fpicture;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getSerialnumber() {
+		return serialnumber;
+	}
+
+	public void setSerialnumber(String serialnumber) {
+		this.serialnumber = serialnumber;
+	}
+	
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean equals(Object o) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+}

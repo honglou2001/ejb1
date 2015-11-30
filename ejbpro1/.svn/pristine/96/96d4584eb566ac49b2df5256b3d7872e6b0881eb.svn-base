@@ -1,0 +1,140 @@
+package com.users.ejb;
+// 1|2 = 3 ; 1&3 =1
+public class EjbEnum {
+	
+	//参数分类
+	public enum ParaCategory {
+        Distributor("分销商", 1), FeedBackCatetory("留言类别", 2);
+		
+     // 成员变量
+        private String name;
+        private int value;
+        // 构造方法
+        private ParaCategory(String name, int val) {
+            this.name = name;
+            this.value = val;
+        }
+        //覆盖方法
+        @Override
+        public String toString() {
+            return this.value+"_"+this.name;
+        } 
+        
+        public int value() {
+            return this.value;
+        }
+    }
+	
+	//控件字段控制范畴——字段的可删，可看，可改的控制
+	public enum FieldState {
+        IsFixed("锁定，不可删除",1),IsCodeLock("编码锁定", 2);
+		
+     // 成员变量
+        private String name;
+        private int value;
+        // 构造方法
+        private FieldState(String name, int val) {
+            this.name = name;
+            this.value = val;
+        }
+        //覆盖方法
+        @Override
+        public String toString() {
+            return this.value+"_"+this.name;
+        } 
+        
+        public int value() {
+            return this.value;
+        }
+    }
+	
+	//数据控制范畴——参数状态
+	public enum ParaState {
+        IsFixed("锁定，不可删除",1),IsChecked("已审核", 2), IsPause("暂停使用", 4), IsDelete("已删除", 8);
+		
+     // 成员变量
+        private String name;
+        private int value;
+        // 构造方法
+        private ParaState(String name, int val) {
+            this.name = name;
+            this.value = val;
+        }
+        //覆盖方法
+        @Override
+        public String toString() {
+            return this.value+"_"+this.name;
+        } 
+        
+        public int value() {
+            return this.value;
+        }
+    }
+	
+	//T_LOC_ELECTFENCE 表  FFieldStatus  字段属性
+	public enum EltLocEnum {
+        IsSelected("选择，在多个围栏中的数据选中此条",1),IsDelete("已删除",2);
+		
+     // 成员变量
+        private String name;
+        private int value;
+        // 构造方法
+        private EltLocEnum(String name, int val) {
+            this.name = name;
+            this.value = val;
+        }
+        //覆盖方法
+        @Override
+        public String toString() {
+            return this.value+"_"+this.name;
+        } 
+        
+        public int value() {
+            return this.value;
+        }
+    }	
+	//t_SerialNumber_Param FCategory 值，一个手表的全局参数类别，一个参数对应一个类别
+	public enum SNParmEnum {
+        silent("静默参数设置",1),callback("回拨模式",2);
+		
+     // 成员变量
+        private String name;
+        private int value;
+        // 构造方法
+        private SNParmEnum(String name, int val) {
+            this.name = name;
+            this.value = val;
+        }
+        //覆盖方法
+        @Override
+        public String toString() {
+            return this.value+"_"+this.name;
+        } 
+        
+        public int value() {
+            return this.value;
+        }
+    }	
+	
+	public enum MqLogType {
+        timeout("应答超时",1),offlinesubmit("首次发送，设备离线",2),offlinequeue("队列发送，设备离线",3);
+		
+     // 成员变量
+        private String name;
+        private int value;
+        // 构造方法
+        private MqLogType(String name, int val) {
+            this.name = name;
+            this.value = val;
+        }
+        //覆盖方法
+        @Override
+        public String toString() {
+            return this.value+"_"+this.name;
+        } 
+        
+        public int value() {
+            return this.value;
+        }
+    }
+}

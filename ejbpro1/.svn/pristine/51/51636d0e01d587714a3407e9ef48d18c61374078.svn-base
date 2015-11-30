@@ -1,0 +1,265 @@
+package com.watch.ejb;
+
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import com.common.ejb.EJBTime;
+import com.users.ejb.ScmDistributors;
+/**
+ * <p>Title: ejb title </p>
+ * <p>Description: t_serialnumber_param EJB Interface Bean 处理类</p>
+ * @author yangqinxu 电话：137****5317
+ * @version 1.0 时间  2015-8-19 9:16:42
+ */
+@Stateless(mappedName="SerialnumberParamService")
+public class SerialnumberParamBean  implements SerialnumberParamService {
+    
+    @PersistenceContext(unitName = "ejbpro1")	
+    private EntityManager manager;
+
+	@Override
+	public void AddSerialnumberParam(SerialnumberParam serialnumberParamInfo) {  
+
+
+		HashMap<String, String> map = new HashMap<String, String>();	
+		map.put("FSnID", serialnumberParamInfo.getFsnid());
+		map.put("FCategory", serialnumberParamInfo.getFcategory().toString());
+		
+		int total= this.GetSerialnumberParamCount(map);
+		
+		if (total > 0) {
+
+			throw new RuntimeException("此手表的该参数已经存在，不能新增，只能修改。");
+		}
+		
+		Timestamp datetime = EJBTime.getTimeStamp();
+		serialnumberParamInfo.setFaddtime(datetime);
+		serialnumberParamInfo.setFupdatetime(datetime);
+		
+        serialnumberParamInfo.setFtypeid(UUID.randomUUID().toString());
+		manager.persist(serialnumberParamInfo);		
+	}
+	
+	@Override
+	public void UpdateSerialnumberParam(SerialnumberParam serialnumberParamInfo) 
+	{
+		Timestamp datetime = EJBTime.getTimeStamp();
+		serialnumberParamInfo.setFupdatetime(datetime);
+    	
+		manager.merge(serialnumberParamInfo);		
+	}
+	
+	@Override
+	public void DeleteSerialnumberParam(String id) 
+	{
+		SerialnumberParam serialnumberParamInfo = manager.find(SerialnumberParam.class, id);
+		
+		manager.remove(serialnumberParamInfo);
+	}
+	
+	@Override
+	public SerialnumberParam findSerialnumberParam(String id) 
+	{
+		SerialnumberParam serialnumberParamInfo = manager.find(SerialnumberParam.class, id);
+		return serialnumberParamInfo;
+	}
+    
+	private String GetWhere(HashMap<String, String> map) {
+		String where = "";
+		
+		if(map!=null && map.size()>0)
+		{
+			//if(map.containsKey("FTypeID") && map.get("FTypeID")!=null && !map.get("FTypeID").toString().equals(""))
+			//{
+			//	where += " and a.FTypeID like '%"+map.get("FTypeID")+"%' ";
+			//}	
+			//if(map.containsKey("FIncreaseID") && map.get("FIncreaseID")!=null && !map.get("FIncreaseID").toString().equals(""))
+			//{
+			//	where += " and a.FIncreaseID like '%"+map.get("FIncreaseID")+"%' ";
+			//}	
+			//if(map.containsKey("FSnID") && map.get("FSnID")!=null && !map.get("FSnID").toString().equals(""))
+			//{
+			//	where += " and a.FSnID like '%"+map.get("FSnID")+"%' ";
+			//}	
+			//if(map.containsKey("FUserID") && map.get("FUserID")!=null && !map.get("FUserID").toString().equals(""))
+			//{
+			//	where += " and a.FUserID like '%"+map.get("FUserID")+"%' ";
+			//}	
+			//if(map.containsKey("FName") && map.get("FName")!=null && !map.get("FName").toString().equals(""))
+			//{
+			//	where += " and a.FName like '%"+map.get("FName")+"%' ";
+			//}	
+			//if(map.containsKey("FCode") && map.get("FCode")!=null && !map.get("FCode").toString().equals(""))
+			//{
+			//	where += " and a.FCode like '%"+map.get("FCode")+"%' ";
+			//}	
+			//if(map.containsKey("FChar1") && map.get("FChar1")!=null && !map.get("FChar1").toString().equals(""))
+			//{
+			//	where += " and a.FChar1 like '%"+map.get("FChar1")+"%' ";
+			//}	
+			//if(map.containsKey("FChar2") && map.get("FChar2")!=null && !map.get("FChar2").toString().equals(""))
+			//{
+			//	where += " and a.FChar2 like '%"+map.get("FChar2")+"%' ";
+			//}	
+			//if(map.containsKey("FChar3") && map.get("FChar3")!=null && !map.get("FChar3").toString().equals(""))
+			//{
+			//	where += " and a.FChar3 like '%"+map.get("FChar3")+"%' ";
+			//}	
+			//if(map.containsKey("FChar4") && map.get("FChar4")!=null && !map.get("FChar4").toString().equals(""))
+			//{
+			//	where += " and a.FChar4 like '%"+map.get("FChar4")+"%' ";
+			//}	
+			//if(map.containsKey("FLong1") && map.get("FLong1")!=null && !map.get("FLong1").toString().equals(""))
+			//{
+			//	where += " and a.FLong1 like '%"+map.get("FLong1")+"%' ";
+			//}	
+			//if(map.containsKey("FLong2") && map.get("FLong2")!=null && !map.get("FLong2").toString().equals(""))
+			//{
+			//	where += " and a.FLong2 like '%"+map.get("FLong2")+"%' ";
+			//}	
+			//if(map.containsKey("FLong3") && map.get("FLong3")!=null && !map.get("FLong3").toString().equals(""))
+			//{
+			//	where += " and a.FLong3 like '%"+map.get("FLong3")+"%' ";
+			//}	
+			//if(map.containsKey("FIsDelete") && map.get("FIsDelete")!=null && !map.get("FIsDelete").toString().equals(""))
+			//{
+			//	where += " and a.FIsDelete like '%"+map.get("FIsDelete")+"%' ";
+			//}	
+			//if(map.containsKey("FIsLock") && map.get("FIsLock")!=null && !map.get("FIsLock").toString().equals(""))
+			//{
+			//	where += " and a.FIsLock like '%"+map.get("FIsLock")+"%' ";
+			//}	
+			//if(map.containsKey("FCategory") && map.get("FCategory")!=null && !map.get("FCategory").toString().equals(""))
+			//{
+			//	where += " and a.FCategory like '%"+map.get("FCategory")+"%' ";
+			//}	
+			//if(map.containsKey("FRemark") && map.get("FRemark")!=null && !map.get("FRemark").toString().equals(""))
+			//{
+			//	where += " and a.FRemark like '%"+map.get("FRemark")+"%' ";
+			//}	
+			//if(map.containsKey("FOrder") && map.get("FOrder")!=null && !map.get("FOrder").toString().equals(""))
+			//{
+			//	where += " and a.FOrder like '%"+map.get("FOrder")+"%' ";
+			//}	
+			//if(map.containsKey("FOperator") && map.get("FOperator")!=null && !map.get("FOperator").toString().equals(""))
+			//{
+			//	where += " and a.FOperator like '%"+map.get("FOperator")+"%' ";
+			//}	
+			//if(map.containsKey("FAddTime") && map.get("FAddTime")!=null && !map.get("FAddTime").toString().equals(""))
+			//{
+			//	where += " and a.FAddTime like '%"+map.get("FAddTime")+"%' ";
+			//}	
+			//if(map.containsKey("FUpdateTime") && map.get("FUpdateTime")!=null && !map.get("FUpdateTime").toString().equals(""))
+			//{
+			//	where += " and a.FUpdateTime like '%"+map.get("FUpdateTime")+"%' ";
+			//}	
+			
+		}
+		return where;
+	}    
+	
+	@Override
+	public int GetSerialnumberParamCount(HashMap<String, String> map){
+		
+        String where = "";
+        
+//		String hql = "select count(*) from SerialnumberParam";	    
+//		Query query =manager.createQuery(hql);   
+//		int total = (new Integer(query.getSingleResult().toString()));	    
+//		return total;
+		
+		if(map.containsKey("FSnID") && map.get("FSnID")!=null && !map.get("FSnID").toString().equals(""))
+		{
+			where += " and a.FSnID = '"+map.get("FSnID")+"' ";
+		}	
+		if(map.containsKey("FCategory") && map.get("FCategory")!=null && !map.get("FCategory").toString().equals(""))
+		{
+			where += " and a.FCategory = "+map.get("FCategory")+" ";
+		}	
+
+		StringBuffer sql = new StringBuffer();
+		sql.append(" SELECT count(*) ");
+		sql.append(" from t_serialnumber_param a");
+		sql.append(" WHERE 1 = 1 ");
+		sql.append(where);
+
+		Query query = manager.createNativeQuery(sql.toString());
+		int total = (new Integer(query.getSingleResult().toString()));
+
+		return total;
+	}	
+	
+	@Override 
+	public List<SerialnumberParam> ListSerialnumberParam(int offset, int length,HashMap<String, String> map) {					
+		
+		String where = "";
+		if(map.containsKey("FSnID") && map.get("FSnID")!=null && !map.get("FSnID").toString().equals(""))
+		{
+			where += " and a.FSnID = '"+map.get("FSnID")+"' ";
+		}	
+		if(map.containsKey("FCategory") && map.get("FCategory")!=null && !map.get("FCategory").toString().equals(""))
+		{
+			where += " and a.FCategory = "+map.get("FCategory")+" ";
+		}	
+
+	    StringBuffer  sql = new StringBuffer();
+        sql.append(" SELECT a.FTypeID,a.FIncreaseID,a.FSnID,a.FUserID,a.FName,a.FCode,a.FChar1,a.FChar2,a.FChar3,a.FChar4,a.FLong1,a.FLong2,a.FLong3,a.FIsDelete,a.FIsLock,a.FCategory,a.FRemark,a.FOrder,a.FOperator,a.FAddTime,a.FUpdateTime ");
+        sql.append(" FROM T_SERIALNUMBER_PARAM a ");
+		sql.append(" WHERE 1 = 1 ");
+		sql.append(where);
+
+		Query query = manager.createNativeQuery(sql.toString());
+
+		List rows = query.getResultList();
+		List<SerialnumberParam> SerialnumberParams = new ArrayList<SerialnumberParam>();
+		
+		for (Object row : rows) {
+			Object[] cells = (Object[]) row;
+			
+			SerialnumberParam item = new SerialnumberParam();	
+            
+			item.setFtypeid((String)cells[0]);            
+            item.setFincreaseid((Integer)cells[1]);            
+            item.setFsnid((String)cells[2]);            
+            item.setFuserid((String)cells[3]);            
+            item.setFname((String)cells[4]);            
+            item.setFcode((String)cells[5]);            
+            item.setFchar1((String)cells[6]);            
+            item.setFchar2((String)cells[7]);            
+            item.setFchar3((String)cells[8]);            
+            item.setFchar4((String)cells[9]);            
+            item.setFlong1((java.math.BigInteger)cells[10]);            
+            item.setFlong2((java.math.BigInteger)cells[11]);            
+            item.setFlong3((java.math.BigInteger)cells[12]);            
+            item.setFisdelete((Integer)cells[13]);            
+            item.setFislock((Integer)cells[14]);            
+            item.setFcategory((Integer)cells[15]);            
+            item.setFremark((String)cells[16]);            
+            item.setForder((Integer)cells[17]);            
+            item.setFoperator((String)cells[18]);            
+            item.setFaddtime((java.sql.Timestamp)cells[19]);            
+            item.setFupdatetime((java.sql.Timestamp)cells[20]);             
+          			
+			SerialnumberParams.add(item);			
+		}
+		return SerialnumberParams;
+			
+//        String where = GetWhere(map);
+//        
+//        String hql = "from SerialnumberParam";      
+//		Query query =manager.createQuery(hql);   
+//		query.setFirstResult(offset);
+//		query.setMaxResults(length);
+//		@SuppressWarnings("unchecked")
+//		List<SerialnumberParam> SerialnumberParams = query.getResultList();   
+//		return SerialnumberParams;		
+	}
+}
