@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * <p>Title: ejb title </p>
@@ -78,6 +79,16 @@ public class SerialnumberWeight   implements Serializable {
     
 	@Column(name = "FUpdateTime")
 	private java.sql.Timestamp fupdatetime;
+	
+	@Transient
+	private String fcallname;
+	
+	@Transient
+	private String frelation;
+	
+	@Transient
+	private String frealname;
+	
     
 
 	public String getFwuniqueid() {
@@ -220,6 +231,32 @@ public class SerialnumberWeight   implements Serializable {
 	public void setFupdatetime(java.sql.Timestamp fupdatetime) {		     
          this.fupdatetime = fupdatetime;
 	}
+	
+	public String getFcallname() {
+		return fcallname;
+	}
+
+	public void setFcallname(String fcallname) {
+		this.fcallname = fcallname;
+	}
+
+	public String getFrelation() {
+		return frelation;
+	}
+
+	public void setFrelation(String frelation) {
+		this.frelation = frelation;
+	}
+
+	public String getFrealname() {
+		return frealname;
+	}
+
+	public void setFrealname(String frealname) {
+		this.frealname = frealname;
+	}
+
+	
 	public String toString() {
 		// TODO Auto-generated method stub
 		return null;

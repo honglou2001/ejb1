@@ -224,6 +224,10 @@ public class SerialnumberSportBean  implements SerialnumberSportService {
         sql.append(" SELECT a.FSportRecID,a.FIncreaseID,a.FUserID,a.FSNID,a.FSNNumber,a.FDevType,a.FMeterInfo,a.FVal1,a.FVa2,a.FChar1,a.FChar2,a.FDataStatus,a.FFieldStatus,a.FSportTime,a.FBleId,a.FSportdate,a.FStep,a.FDistance,a.FCal,a.FFloor,a.FHeartRate,a.FHeartrateMin,a.FHeartRateMax,a.FHeartStr,a.FAddTime,a.FUpdateTime,a.FRemark ");
         sql.append(" FROM T_SERIALNUMBER_SPORT a ");
 		sql.append(" WHERE 1 = 1 ");
+		
+		sql.append(where);
+		sql.append(" order by a.FIncreaseID desc ");
+		sql.append(" limit "+offset+","+length+"");
 
 		Query query = manager.createNativeQuery(sql.toString());
 

@@ -27,12 +27,20 @@ public class SerialnumberWeightBean  implements SerialnumberWeightService {
 	@Override
 	public void AddSerialnumberWeight(SerialnumberWeight serialnumberWeightInfo) {  
         serialnumberWeightInfo.setFwuniqueid(UUID.randomUUID().toString());
+        
+      	Timestamp datetime = EJBTime.getTimeStamp();
+
+      	serialnumberWeightInfo.setFaddtime(datetime);
+      	serialnumberWeightInfo.setFupdatetime(datetime);
+    	
 		manager.persist(serialnumberWeightInfo);		
 	}
 	
 	@Override
 	public void UpdateSerialnumberWeight(SerialnumberWeight serialnumberWeightInfo) 
 	{
+	   	Timestamp datetime = EJBTime.getTimeStamp();
+      	serialnumberWeightInfo.setFupdatetime(datetime);
 		manager.merge(serialnumberWeightInfo);		
 	}
 	
@@ -184,10 +192,31 @@ public class SerialnumberWeightBean  implements SerialnumberWeightService {
 //		List<SerialnumberWeight> SerialnumberWeights = query.getResultList();   
 //		return SerialnumberWeights;	
 		
+		String where=" ";
+		
+		if(map.containsKey("FAppcountid") && map.get("FAppcountid")!=null && !map.get("FAppcountid").toString().equals(""))
+		{
+			where += " and a.FAppcountid = '"+map.get("FAppcountid")+"' ";
+		}	
+		if(map.containsKey("FSerialnumid") && map.get("FSerialnumid")!=null && !map.get("FSerialnumid").toString().equals(""))
+		{
+			where += " and a.FSerialnumid = '"+map.get("FSerialnumid")+"' ";
+		}	
+		
+		
+		if(where.equals(""))
+		{
+			where +="and 1=0";
+		}	
+		
 		StringBuffer  sql = new StringBuffer();
-        sql.append(" SELECT a.FWUniqueID,a.FIncreaseID,a.FSndusrid,a.FSerialnumid,a.FAppcountid,a.FIsDelete,a.FIsLock,a.Fweight,a.FHeight,a.FBMI,a.FCalorie,a.FFatContent,a.FBoneContent,a.FMuscleContent,a.FWaterContent,a.FVisceralFatContent,a.FDataStatus,a.FRemark,a.FAddTime,a.FUpdateTime ");
-        sql.append(" FROM T_SERIALNUMBER_WEIGHT a ");
+        sql.append(" SELECT a.FWUniqueID,a.FIncreaseID,a.FSndusrid,a.FSerialnumid,a.FAppcountid,a.FIsDelete,a.FIsLock,a.Fweight,a.FHeight,a.FBMI,a.FCalorie,a.FFatContent,a.FBoneContent,a.FMuscleContent,a.FWaterContent,a.FVisceralFatContent,a.FDataStatus,a.FRemark,a.FAddTime,a.FUpdateTime,ifnull(b.realname,''),ifnull(b.callname,''),ifnull(b.relation,'') ");
+        sql.append(" FROM T_SERIALNUMBER_WEIGHT a left join t_serialnumber_datauser b on a.FSndusrid=b.fsndusrid ");
 		sql.append(" WHERE 1 = 1 ");
+		
+		sql.append(where);
+		sql.append(" order by a.FIncreaseID desc ");
+		sql.append(" limit "+offset+","+length+"");
 
 		Query query = manager.createNativeQuery(sql.toString());
 
@@ -218,7 +247,11 @@ public class SerialnumberWeightBean  implements SerialnumberWeightService {
             item.setFdatastatus((Integer)cells[16]);            
             item.setFremark((String)cells[17]);            
             item.setFaddtime((java.sql.Timestamp)cells[18]);            
-            item.setFupdatetime((java.sql.Timestamp)cells[19]);            
+            item.setFupdatetime((java.sql.Timestamp)cells[19]);    
+            
+            item.setFrealname((String)cells[20]);
+            item.setFcallname((String)cells[21]);
+            item.setFrelation((String)cells[22]);
           			
 			SerialnumberWeights.add(item);			
 		}
