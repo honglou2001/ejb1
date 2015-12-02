@@ -80,9 +80,6 @@ public class SerialnumberWeight   implements Serializable {
 	@Column(name = "FUpdateTime")
 	private java.sql.Timestamp fupdatetime;
 	
-	@Column(name = "FLocalDate")
-	private String flocaldate;
-	
 	@Transient
 	private String fcallname;
 	
@@ -235,14 +232,6 @@ public class SerialnumberWeight   implements Serializable {
          this.fupdatetime = fupdatetime;
 	}
 	
-	public String getFlocaldate() {
-		return flocaldate;
-	}
-    
-	public void setFlocaldate(String flocaldate) {		     
-         this.flocaldate = flocaldate;
-	}
-	
 	public String getFcallname() {
 		return fcallname;
 	}
@@ -266,6 +255,7 @@ public class SerialnumberWeight   implements Serializable {
 	public void setFrealname(String frealname) {
 		this.frealname = frealname;
 	}
+
 	
 	public String toString() {
 		// TODO Auto-generated method stub

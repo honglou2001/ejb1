@@ -202,10 +202,7 @@ public class SerialnumberWeightBean  implements SerialnumberWeightService {
 		{
 			where += " and a.FSerialnumid = '"+map.get("FSerialnumid")+"' ";
 		}	
-		if(map.containsKey("FLocalDate") && map.get("FLocalDate")!=null && !map.get("FLocalDate").toString().equals(""))
-		{
-			where += " and a.FLocalDate like '"+map.get("FLocalDate")+"%' ";
-		}	
+		
 		
 		if(where.equals(""))
 		{
@@ -213,7 +210,7 @@ public class SerialnumberWeightBean  implements SerialnumberWeightService {
 		}	
 		
 		StringBuffer  sql = new StringBuffer();
-        sql.append(" SELECT a.FWUniqueID,a.FIncreaseID,a.FSndusrid,a.FSerialnumid,a.FAppcountid,a.FIsDelete,a.FIsLock,a.Fweight,a.FHeight,a.FBMI,a.FCalorie,a.FFatContent,a.FBoneContent,a.FMuscleContent,a.FWaterContent,a.FVisceralFatContent,a.FDataStatus,a.FRemark,a.FAddTime,a.FUpdateTime,ifnull(b.realname,''),ifnull(b.callname,''),ifnull(b.relation,''),a.FLocalDate ");
+        sql.append(" SELECT a.FWUniqueID,a.FIncreaseID,a.FSndusrid,a.FSerialnumid,a.FAppcountid,a.FIsDelete,a.FIsLock,a.Fweight,a.FHeight,a.FBMI,a.FCalorie,a.FFatContent,a.FBoneContent,a.FMuscleContent,a.FWaterContent,a.FVisceralFatContent,a.FDataStatus,a.FRemark,a.FAddTime,a.FUpdateTime,ifnull(b.realname,''),ifnull(b.callname,''),ifnull(b.relation,'') ");
         sql.append(" FROM T_SERIALNUMBER_WEIGHT a left join t_serialnumber_datauser b on a.FSndusrid=b.fsndusrid ");
 		sql.append(" WHERE 1 = 1 ");
 		
@@ -255,8 +252,7 @@ public class SerialnumberWeightBean  implements SerialnumberWeightService {
             item.setFrealname((String)cells[20]);
             item.setFcallname((String)cells[21]);
             item.setFrelation((String)cells[22]);
-            item.setFlocaldate((String)cells[23]);
-            
+          			
 			SerialnumberWeights.add(item);			
 		}
 		return SerialnumberWeights;
