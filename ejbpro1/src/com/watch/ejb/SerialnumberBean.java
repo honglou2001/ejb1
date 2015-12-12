@@ -348,7 +348,7 @@ public class SerialnumberBean  implements SerialnumberService {
 		String where = this.getWhere(map);
 		
 	    StringBuffer  sql = new StringBuffer();
-        sql.append(" SELECT a.funiqueid,a.id,a.serialnumber,a.status,a.ef,a.setgps,a.gpsstatus,a.isreg,a.lbs,a.listenstatus,a.online,a.nickname,a.fqrcode,a.birthday,a.fsex,a.fweight,a.feight,a.fgrade,a.fclass,a.fschool,a.fcallname,a.flogcount,a.floglasttime,a.floglastip,a.fdatastatus,a.fremark,a.fpicture,a.fupdatetime,a.fphonenum,c.funiqueid,c.username,c.fmobile,a.fdevtype,ifnull(d.FClientNumber,'') ");
+        sql.append(" SELECT a.funiqueid,a.id,a.serialnumber,a.status,a.ef,a.setgps,a.gpsstatus,a.isreg,a.lbs,a.listenstatus,a.online,a.nickname,a.fqrcode,a.birthday,a.fsex,a.fweight,a.feight,a.fgrade,a.fclass,a.fschool,a.fcallname,a.flogcount,a.floglasttime,a.floglastip,a.fdatastatus,a.fremark,a.fpicture,a.fupdatetime,a.fphonenum,ifnull(c.funiqueid,'') AS userid,c.username,c.fmobile,a.fdevtype,ifnull(d.FClientNumber,'') ");
 		sql.append(" FROM serialnumber a left join t_user_snrelate b  on a.funiqueid = b.FSNIDStr  ");
 		sql.append(" left join USER c on c.funiqueid=b.FUserIDStr   ");    
 		
