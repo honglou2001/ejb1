@@ -198,6 +198,10 @@ public class UserWatchBean  implements UserWatchService {
 			{
 				where += " and a.fmobile = '"+map.get("fmobile")+"' ";
 			}
+			if(map.containsKey("femail") && map.get("femail")!=null && !map.get("femail").toString().equals(""))
+			{
+				where += " and a.femail = '"+map.get("femail")+"' ";
+			}
 //			if(map.containsKey("fpwd") && map.get("fpwd")!=null && !map.get("fpwd").toString().equals(""))
 //			{
 //				where += " and a.password = '"+map.get("fpwd")+"' ";
