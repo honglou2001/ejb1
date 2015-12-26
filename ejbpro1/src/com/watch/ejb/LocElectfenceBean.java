@@ -287,7 +287,7 @@ public class LocElectfenceBean implements LocElectfenceService {
 		sql.append(" FROM T_LOC_ELECTFENCE a left join electfence b on a.FEltFenceID = b.id ");		
 		sql.append(" WHERE 1 = 1 ");
 		sql.append(where);
-		sql.append(" order by a.FIncreaseID desc ");
+		sql.append(" order by a.FIncreaseID asc ");
 		sql.append("limit "+offset+"," + length + "");
 
 		Query query = manager.createNativeQuery(sql.toString());
