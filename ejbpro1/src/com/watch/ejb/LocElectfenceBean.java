@@ -92,6 +92,11 @@ public class LocElectfenceBean implements LocElectfenceService {
 				where += " and a.fdatastatus = " + map.get("fdatastatus") + " ";
 			}
 			
+			if (map.containsKey("frecordcount") && map.get("frecordcount") != null
+					&& map.get("frecordcount").toString().equals("frecordcount=1")) {
+				where += " and a.frecordcount = 1 ";
+			}					
+			
 		}
 		return where;
 	}
@@ -280,6 +285,15 @@ public class LocElectfenceBean implements LocElectfenceService {
 
 		
 		String where = GetWhere(map);
+		
+		String ordersc = " desc ";
+		
+		if(map!=null && map.size()>0){
+			if (map.containsKey("frecordcount") && map.get("frecordcount") != null
+					&& map.get("frecordcount").toString().equals("frecordcount=1")) {
+				ordersc = " asc ";
+			}	
+		}
 
 		StringBuffer sql = new StringBuffer();
 		sql.append(" SELECT a.FLocFenID,a.FIncreaseID,a.FEltFenceID,a.FSerialnumber,a.FDataStatus,a.FFieldStatus,a.FEltLongitude,a.FEltLatitude,a.FEltScope,a.FEltAddress,a.FLongitude,a.FLatitude,a.FAddress,a.FDistance,a.FAddTime,a.FUpdateTime,a.FRemark ");
@@ -287,7 +301,7 @@ public class LocElectfenceBean implements LocElectfenceService {
 		sql.append(" FROM T_LOC_ELECTFENCE a left join electfence b on a.FEltFenceID = b.id ");		
 		sql.append(" WHERE 1 = 1 ");
 		sql.append(where);
-		sql.append(" order by a.FIncreaseID asc ");
+		sql.append(" order by a.FIncreaseID "+ordersc);
 		sql.append("limit "+offset+"," + length + "");
 
 		Query query = manager.createNativeQuery(sql.toString());
