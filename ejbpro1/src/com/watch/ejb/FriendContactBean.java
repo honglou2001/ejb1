@@ -66,86 +66,6 @@ public class FriendContactBean  implements FriendContactService {
 		
 		if(map!=null && map.size()>0)
 		{
-			//if(map.containsKey("FContactID") && map.get("FContactID")!=null && !map.get("FContactID").toString().equals(""))
-			//{
-			//	where += " and a.FContactID like '%"+map.get("FContactID")+"%' ";
-			//}	
-			//if(map.containsKey("FIncreaseID") && map.get("FIncreaseID")!=null && !map.get("FIncreaseID").toString().equals(""))
-			//{
-			//	where += " and a.FIncreaseID like '%"+map.get("FIncreaseID")+"%' ";
-			//}	
-			//if(map.containsKey("FAPPUserID") && map.get("FAPPUserID")!=null && !map.get("FAPPUserID").toString().equals(""))
-			//{
-			//	where += " and a.FAPPUserID like '%"+map.get("FAPPUserID")+"%' ";
-			//}	
-			//if(map.containsKey("FFromSnID") && map.get("FFromSnID")!=null && !map.get("FFromSnID").toString().equals(""))
-			//{
-			//	where += " and a.FFromSnID like '%"+map.get("FFromSnID")+"%' ";
-			//}	
-			//if(map.containsKey("FToSnID") && map.get("FToSnID")!=null && !map.get("FToSnID").toString().equals(""))
-			//{
-			//	where += " and a.FToSnID like '%"+map.get("FToSnID")+"%' ";
-			//}	
-			//if(map.containsKey("FAction") && map.get("FAction")!=null && !map.get("FAction").toString().equals(""))
-			//{
-			//	where += " and a.FAction like '%"+map.get("FAction")+"%' ";
-			//}	
-			//if(map.containsKey("FIndex") && map.get("FIndex")!=null && !map.get("FIndex").toString().equals(""))
-			//{
-			//	where += " and a.FIndex like '%"+map.get("FIndex")+"%' ";
-			//}	
-			//if(map.containsKey("FName") && map.get("FName")!=null && !map.get("FName").toString().equals(""))
-			//{
-			//	where += " and a.FName like '%"+map.get("FName")+"%' ";
-			//}	
-			//if(map.containsKey("FPhoneNum") && map.get("FPhoneNum")!=null && !map.get("FPhoneNum").toString().equals(""))
-			//{
-			//	where += " and a.FPhoneNum like '%"+map.get("FPhoneNum")+"%' ";
-			//}	
-			//if(map.containsKey("FProperties") && map.get("FProperties")!=null && !map.get("FProperties").toString().equals(""))
-			//{
-			//	where += " and a.FProperties like '%"+map.get("FProperties")+"%' ";
-			//}	
-			//if(map.containsKey("FDialType") && map.get("FDialType")!=null && !map.get("FDialType").toString().equals(""))
-			//{
-			//	where += " and a.FDialType like '%"+map.get("FDialType")+"%' ";
-			//}	
-			//if(map.containsKey("FZone") && map.get("FZone")!=null && !map.get("FZone").toString().equals(""))
-			//{
-			//	where += " and a.FZone like '%"+map.get("FZone")+"%' ";
-			//}	
-			//if(map.containsKey("FBackup1") && map.get("FBackup1")!=null && !map.get("FBackup1").toString().equals(""))
-			//{
-			//	where += " and a.FBackup1 like '%"+map.get("FBackup1")+"%' ";
-			//}	
-			//if(map.containsKey("FBackup2") && map.get("FBackup2")!=null && !map.get("FBackup2").toString().equals(""))
-			//{
-			//	where += " and a.FBackup2 like '%"+map.get("FBackup2")+"%' ";
-			//}	
-			//if(map.containsKey("FCallBackUrl") && map.get("FCallBackUrl")!=null && !map.get("FCallBackUrl").toString().equals(""))
-			//{
-			//	where += " and a.FCallBackUrl like '%"+map.get("FCallBackUrl")+"%' ";
-			//}	
-			//if(map.containsKey("FDataStatus") && map.get("FDataStatus")!=null && !map.get("FDataStatus").toString().equals(""))
-			//{
-			//	where += " and a.FDataStatus like '%"+map.get("FDataStatus")+"%' ";
-			//}	
-			//if(map.containsKey("FFieldStatus") && map.get("FFieldStatus")!=null && !map.get("FFieldStatus").toString().equals(""))
-			//{
-			//	where += " and a.FFieldStatus like '%"+map.get("FFieldStatus")+"%' ";
-			//}	
-			//if(map.containsKey("FAddTime") && map.get("FAddTime")!=null && !map.get("FAddTime").toString().equals(""))
-			//{
-			//	where += " and a.FAddTime like '%"+map.get("FAddTime")+"%' ";
-			//}	
-			//if(map.containsKey("FUpdateTime") && map.get("FUpdateTime")!=null && !map.get("FUpdateTime").toString().equals(""))
-			//{
-			//	where += " and a.FUpdateTime like '%"+map.get("FUpdateTime")+"%' ";
-			//}	
-			//if(map.containsKey("FRemark") && map.get("FRemark")!=null && !map.get("FRemark").toString().equals(""))
-			//{
-			//	where += " and a.FRemark like '%"+map.get("FRemark")+"%' ";
-			//}	
 			
 		}
 		return where;
@@ -165,15 +85,6 @@ public class FriendContactBean  implements FriendContactService {
 	@Override 
 	public List<FriendContact> ListFriendContact(int offset, int length,HashMap<String, String> map) {					
 		
-//        String where = GetWhere(map);
-//        
-//        String hql = "from FriendContact";      
-//		Query query =manager.createQuery(hql);   
-//		query.setFirstResult(offset);
-//		query.setMaxResults(length);
-//		@SuppressWarnings("unchecked")
-//		List<FriendContact> FriendContacts = query.getResultList();   
-//		return FriendContacts;	
 		
 		String where="";
 		String order = "order by a.FIndex desc";
