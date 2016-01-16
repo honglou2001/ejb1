@@ -24,6 +24,11 @@ public class SerialnumberBean  implements SerialnumberService {
     @PersistenceContext(unitName = "ejbpro1")	
     private EntityManager manager;
 
+
+	public void setManagerByEjb(EntityManager manager) {
+		this.manager = manager;
+	}
+
 	@Override
 	public void Add(Serialnumber serialnumberInfo) {    
 		

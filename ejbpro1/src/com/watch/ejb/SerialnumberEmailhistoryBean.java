@@ -1,5 +1,6 @@
 package com.watch.ejb;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -176,14 +177,47 @@ public class SerialnumberEmailhistoryBean  implements SerialnumberEmailhistorySe
 	@Override 
 	public List<SerialnumberEmailhistory> ListSerialnumberEmailhistory(int offset, int length,HashMap<String, String> map) {					
 		
-        String where = GetWhere(map);
-        
-        String hql = "from SerialnumberEmailhistory";      
-		Query query =manager.createQuery(hql);   
-		query.setFirstResult(offset);
-		query.setMaxResults(length);
-		@SuppressWarnings("unchecked")
-		List<SerialnumberEmailhistory> SerialnumberEmailhistorys = query.getResultList();   
-		return SerialnumberEmailhistorys;		
+
+	    StringBuffer  sql = new StringBuffer();
+        sql.append(" SELECT a.FEmailRecID,a.FTemplateID,a.FIncreaseID,a.FAppId,a.FUserID,a.FSNID,a.FSNNumber,a.FLanguage,a.FTag,a.FTitle,a.FToAddress,a.FFromAddress,a.FType,a.FContent,a.FAattachment,a.FDataStatus,a.FFieldStatus,a.FAddTime,a.FUpdateTime,a.FRemark ");
+        sql.append(" FROM T_SERIALNUMBER_EMAILHISTORY a ");
+		sql.append(" WHERE 1 = 1 ");
+		sql.append(" order by a.FUpdateTime desc ");
+		sql.append(" limit "+offset+","+length+"");
+
+		Query query = manager.createNativeQuery(sql.toString());
+
+		List rows = query.getResultList();
+		List<SerialnumberEmailhistory> SerialnumberEmailhistorys = new ArrayList<SerialnumberEmailhistory>();
+		
+		for (Object row : rows) {
+			Object[] cells = (Object[]) row;
+			
+			SerialnumberEmailhistory item = new SerialnumberEmailhistory();	
+            
+            item.setFemailrecid((String)cells[0]);            
+            item.setFtemplateid((String)cells[1]);            
+            item.setFincreaseid((Integer)cells[2]);            
+            item.setFappid((String)cells[3]);            
+            item.setFuserid((String)cells[4]);            
+            item.setFsnid((String)cells[5]);            
+            item.setFsnnumber((String)cells[6]);            
+            item.setFlanguage((Integer)cells[7]);            
+            item.setFtag((String)cells[8]);            
+            item.setFtitle((String)cells[9]);            
+            item.setFtoaddress((String)cells[10]);            
+            item.setFfromaddress((String)cells[11]);            
+            item.setFtype((Integer)cells[12]);            
+            item.setFcontent((String)cells[13]);            
+            item.setFaattachment((String)cells[14]);            
+            item.setFdatastatus((Integer)cells[15]);            
+            item.setFfieldstatus((Integer)cells[16]);            
+            item.setFaddtime((java.sql.Timestamp)cells[17]);            
+            item.setFupdatetime((java.sql.Timestamp)cells[18]);            
+            item.setFremark((String)cells[19]);            
+          			
+			SerialnumberEmailhistorys.add(item);			
+		}
+		return SerialnumberEmailhistorys;	
 	}
 }

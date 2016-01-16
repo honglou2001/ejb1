@@ -75,6 +75,7 @@ public class MqReceivedBean  implements MqReceivedService {
 			hMap.put("sn.serialnumber", snnumber);
 			
 			SerialnumberBean snBean = new SerialnumberBean();
+			snBean.setManagerByEjb(this.manager);
 			List<Serialnumber>  listSNNumber = snBean.ListSerialnumberAll(0, 10, hMap);
 			if(listSNNumber!=null && listSNNumber.size()>0)
 			{
@@ -96,10 +97,10 @@ public class MqReceivedBean  implements MqReceivedService {
 		    StringBuffer  sql = new StringBuffer();
 	        sql.append(" update t_mq_task a inner join (select  ");
 			sql.append(" min(FIncreaseID) as fid from t_mq_task  where FCmd='7103'  and FSNID='"+snnumber+"'  and  ");
-			sql.append(" (FExcResult is null or  FExcResult = 0)) b ");      
+			sql.append(" (FExcResult is null or  FExcResult = 0)  and FParam like '%"+phoneNum+"%'  ) b ");      
 			sql.append(" on a.FIncreaseID = b.fid ");
 			sql.append(" set  FExcResult =1,FExcTime='"+tsStr+"'");
-			sql.append(" where FCmd='7103' and FSNID='"+snnumber+"' ");
+			sql.append(" where FCmd='7103' and FSNID='"+snnumber+"' and FParam like '%"+phoneNum+"%'  ");
 			 
 			Query query = manager.createNativeQuery(sql.toString());
 			query.executeUpdate();
@@ -113,7 +114,7 @@ public class MqReceivedBean  implements MqReceivedService {
 			sql.append(" and (FFieldStatus is null or  FFieldStatus = 0)) ");
 			sql.append(" b on a.FIncreaseID = b.fid ");      
 			sql.append(" set FFieldStatus =1 ,FUpdateTime='"+tsStr+"',FRemark=CONCAT(ifnull(FRemark,''),'callback_') ");
-			sql.append(" where FToSnID = '"+snId+"' ");
+			sql.append(" where FToSnID = '"+snId+"' and FPhoneNum='"+phoneNum+"' ");
 			 
 			query = manager.createNativeQuery(sql.toString());
 			query.executeUpdate();
